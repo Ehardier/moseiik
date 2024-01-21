@@ -357,23 +357,98 @@ mod tests {
 
     #[test]
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
-    /*fn unit_test_x86() {
+    fn unit_test_x86() {
+        // Création d'images factices en niveaux de gris pour le test
+        let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+        let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+	for i in im1.iter(){
+		println!("Pixels image 1 {}", i); 
+	}
+	
+        // Appel de la fonction à tester
+        let result = unsafe { l1_x86_sse2(&im1, &im2)};
+
+        // Vérification de la distance de Manhattan attendue
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (0 pour tous les pixels).
+        assert_eq!(result, 0);
+
+        // Autre exemple avec des images ayant des valeurs différentes
+        let im3 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 1, y as u8 + 2, 0]));
+        let result2 = unsafe { l1_x86_sse2(&im1, &im3)};
+	for i in im3.iter(){
+		println!("Pixels image 2 {}", i); 
+	}
+	for i in im2.iter().zip(im3.iter()){
+		println!("combinaison {} {}", i.0, i.1); 
+	}
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (1 + 2 pour chaque pixel).
+        assert_eq!(result2, 27);
         
+        let im4 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 2, y as u8 + 2, 0]));
+        let result3 = unsafe {l1_x86_sse2(&im1, &im4)};
+	for i in im4.iter(){
+		println!("Pixels image 2 {}", i); 
+	}
+	for i in im2.iter().zip(im4.iter()){
+		println!("combinaison {} {}", i.0, i.1); 
+	}
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (2 + 2 pour chaque pixel).
+        assert_eq!(result3, 36);
         
-        assert!(false);
-    }*/
-/*
+    }
+
     #[test]
     #[cfg(target_arch = "aarch64")]
     fn unit_test_aarch64() {
-        // TODO
-        assert!(false);
+        // Création d'images factices en niveaux de gris pour le test
+        let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+        let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+	for i in im1.iter(){
+		println!("Pixels image 1 {}", i); 
+	}
+	
+        // Appel de la fonction à tester
+        let result = unsafe { l1_neon(&im1, &im2)};
+
+        // Vérification de la distance de Manhattan attendue
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (0 pour tous les pixels).
+        assert_eq!(result, 0);
+
+        // Autre exemple avec des images ayant des valeurs différentes
+        let im3 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 1, y as u8 + 2, 0]));
+        let result2 = unsafe { l1_neon(&im1, &im3)};
+	for i in im3.iter(){
+		println!("Pixels image 2 {}", i); 
+	}
+	for i in im2.iter().zip(im3.iter()){
+		println!("combinaison {} {}", i.0, i.1); 
+	}
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (1 + 2 pour chaque pixel).
+        assert_eq!(result2, 27);
+        
+        let im4 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 2, y as u8 + 2, 0]));
+        let result3 = unsafe {l1_neon(&im1, &im4)};
+	for i in im4.iter(){
+		println!("Pixels image 2 {}", i); 
+	}
+	for i in im2.iter().zip(im4.iter()){
+		println!("combinaison {} {}", i.0, i.1); 
+	}
+        // Dans cet exemple, la distance devrait être la somme des différences absolues
+        // entre les composantes de luminance de chaque pixel (2 + 2 pour chaque pixel).
+        assert_eq!(result3, 36);
+        
     }
 
-*/
+
     #[test]
     fn unit_test_generic() {
-        // TODO
+        
         // Création d'images factices en niveaux de gris pour le test
         let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
         let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
