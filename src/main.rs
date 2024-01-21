@@ -67,6 +67,9 @@ fn count_available_tiles(images_folder: &str) -> i32 {
 }
 
 fn prepare_tiles(images_folder: &str, tile_size: &Size, verbose: bool) -> Result<Vec<RgbImage>, Box<dyn Error>> {
+    println!("{}", images_folder);
+    println!("{} {}", tile_size.height, tile_size.width);
+    println!("{}", verbose);
     let image_paths = fs::read_dir(images_folder)?;
     let tiles = Arc::new(Mutex::new(Vec::new()));
     let now = Instant::now();
@@ -79,7 +82,7 @@ fn prepare_tiles(images_folder: &str, tile_size: &Size, verbose: bool) -> Result
         pool.execute(move || {
             let tile_result =
                 || -> Result<RgbImage, Box<dyn Error>> { Ok(ImageReader::open(image_path?.path())?.decode()?.into_rgb8()) };
-
+	    
             let tile = match tile_result() {
                 Ok(t) => t,
                 Err(_) => return,
@@ -90,7 +93,7 @@ fn prepare_tiles(images_folder: &str, tile_size: &Size, verbose: bool) -> Result
         });
     }
     pool.join();
-
+        
     println!(
         "\n{} elements in {} seconds",
         tiles.lock().unwrap().len(),
@@ -349,7 +352,10 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    #[test]
+
+    use super::*;
+
+    /*#[test]
     #[cfg(any(target_arch = "x86", target_arch = "x86_64"))]
     fn unit_test_x86() {
         // TODO
@@ -363,9 +369,37 @@ mod tests {
         assert!(false);
     }
 
+*/
     #[test]
     fn unit_test_generic() {
         // TODO
         assert!(false);
+    }
+    
+    #[test]
+    fn test_prepare_tiles() {
+        
+        
+        //let fake_tiles_folder = "fake_tiles_folder";
+        let image_folder = "assets/images";
+
+        
+        // Configuration des paramètres de test
+        let tile_size = Size { width: 10, height: 10 };
+        let verbose = false;
+
+        // Appel de la fonction à tester
+        let result = prepare_tiles(image_folder, &tile_size, verbose);
+
+        // Vérification du nombre de tuiles renvoyé
+        //assert_eq!(result.unwrap().len(), 4373);
+        
+        // Vérification de la taille des tuiles
+        for tile in result.unwrap().iter(){
+        	assert_eq!(tile.width(), tile_size.width);
+        	assert_eq!(tile.height(), tile_size.height);
+        }
+
+        
     }
 }
