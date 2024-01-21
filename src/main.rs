@@ -369,13 +369,13 @@ mod tests {
         assert!(false);
     }
 
-*/
+
     #[test]
     fn unit_test_generic() {
         // TODO
         assert!(false);
     }
-    
+    */
     #[test]
     fn test_prepare_tiles() {
         
@@ -399,7 +399,25 @@ mod tests {
         	assert_eq!(tile.width(), tile_size.width);
         	assert_eq!(tile.height(), tile_size.height);
         }
+    }
+    
+    #[test]
+    fn test_prepare_target() {
+        
+        
+        //let fake_tiles_folder = "fake_tiles_folder";
+        let image_target = "assets/target-small.png";
 
+        
+        // Configuration des paramètres de test
+        let scale = 6;
+        let tile_size = Size { width: 3, height: 3};
+
+        // Appel de la fonction à tester
+        let result = prepare_target(image_target, scale, &tile_size);
+        
+        // Vérification de la taille du target
+        assert_eq!(result.unwrap().dimensions(), ((10-10%tile_size.width)*scale, (10-10%tile_size.height)*scale));
         
     }
 }
