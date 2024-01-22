@@ -1,42 +1,29 @@
-name: Docker Image CI
+name: CI project
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: [push, pull_request]
 
 jobs:
-  build-and-test: # Nom du job
-    # Utiliser une image Ubuntu pour l'exécution du job
-    runs-on: ubuntu-latest 
-
+  build:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Matrice pour exécuter le job sur deux architectures différentes
-        platform: [x86_64, arm64] 
+        platform: [linux/amd64, linux/arm64/v8]
 
     steps:
-      #- name: Checkout Repository
-        #uses: actions/checkout@v2 # Utiliser l'action pour récupérer le code source du dépôt
+    - name: Checkout Code
+      uses: actions/checkout@v2
 
-     
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
 
-      - name: Setup QEMU 
-        run: |
-          # Installer QEMU sur la machine de l'agent GitHub Actions
-          sudo apt-get update 
-          sudo apt-get install -y libssl-dev qemu-user-static 
-          
-          # Configurer QEMU pour l'émulation d'architecture  
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-          
-          
+    - name: Build and run Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        platforms: ${{ matrix.platform }}
+        load: true
+        push: false
+        tags: user/app:latest
 
-      - name: Build and Test Docker Image
-        run: |
-          sudo docker build -t docker_image --platform ${{ matrix.platform }} .
-          # Construire l'image Docker avec le tag docker_image et la plateforme spécifiée dans la matrice
-          
-          sudo docker run docker_image 
-          # Exécuter les tests à l'intérieur du conteneur Docker
+    - name: Run tests
+      run: docker run user/app:latest
