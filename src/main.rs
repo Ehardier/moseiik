@@ -256,6 +256,7 @@ fn l1(im1: &RgbImage, im2: &RgbImage, simd_flag: bool, verbose: bool) -> i32 {
 }
 
 fn prepare_target(image_path: &str, scale: u32, tile_size: &Size) -> Result<RgbImage, Box<dyn Error>> {
+    println!("scale = {}", scale);
     let target = ImageReader::open(image_path)?.decode()?.into_rgb8();
     let width = target.width();
     let height = target.height();
@@ -283,6 +284,8 @@ pub fn compute_mosaic(args: Options) {
         width: args.tile_size,
         height: args.tile_size,
     };
+    println!("width = {} height = {}", tile_size.width, tile_size.height);
+    println!("nombre de thread = {}", args.num_thread);
 
     let (target_size, target) = match prepare_target(&args.image, args.scaling, &tile_size) {
         Ok(t) => (
