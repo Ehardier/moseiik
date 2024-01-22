@@ -2,7 +2,7 @@
 FROM rust:latest
 
 # Set the working directory inside the container
-WORKDIR /app
+# WORKDIR /app
 
 # Copy the entire project directory into the container
 COPY . .
