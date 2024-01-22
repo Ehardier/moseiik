@@ -17,8 +17,8 @@ jobs:
         platform: [x86_64, arm64] 
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2 # Utiliser l'action pour récupérer le code source du dépôt
+      #- name: Checkout Repository
+        #uses: actions/checkout@v2 # Utiliser l'action pour récupérer le code source du dépôt
 
       - name: Download Dockerfile
         run: |
