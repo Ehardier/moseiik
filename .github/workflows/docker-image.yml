@@ -20,9 +20,9 @@ jobs:
       #- name: Checkout Repository
         #uses: actions/checkout@v2 # Utiliser l'action pour récupérer le code source du dépôt
 
-      - name: Download Dockerfile
-        run: |
-          wget https://github.com/Ehardier/moseiik/blob/main/Dockerfile -O Dockerfile
+      #- name: Download Dockerfile
+       # run: |
+        #  wget https://github.com/Ehardier/moseiik/blob/main/Dockerfile -O Dockerfile
 
       - name: Setup QEMU 
         run: |
