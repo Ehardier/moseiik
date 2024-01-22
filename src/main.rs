@@ -355,7 +355,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-
+    // Utiliser les éléments du module principal
     use super::*;
 
     #[test]
@@ -364,6 +364,8 @@ mod tests {
         // Création d'images factices en niveaux de gris pour le test
         let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
         let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+
+	// Itération pour afficher les pixels de image 1
 	for i in im1.iter(){
 		println!("Pixels image 1 {}", i); 
 	}
@@ -379,24 +381,34 @@ mod tests {
         // Autre exemple avec des images ayant des valeurs différentes
         let im3 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 1, y as u8 + 2, 0]));
         let result2 = unsafe { l1_x86_sse2(&im1, &im3)};
+
+	// Itération pour afficher les pixels de image 2
 	for i in im3.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
+
+	// Itération pour afficher le résultat de la méthode .zip
 	for i in im2.iter().zip(im3.iter()){
 		println!("combinaison {} {}", i.0, i.1); 
 	}
+	    
         // Dans cet exemple, la distance devrait être la somme des différences absolues
         // entre les composantes de luminance de chaque pixel (1 + 2 pour chaque pixel).
         assert_eq!(result2, 27);
         
         let im4 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 2, y as u8 + 2, 0]));
         let result3 = unsafe {l1_x86_sse2(&im1, &im4)};
+
+	// Itération pour afficher les pixels de image 4
 	for i in im4.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
+
+	// Itération pour afficher le résultat de la méthode .zip
 	for i in im2.iter().zip(im4.iter()){
 		println!("combinaison {} {}", i.0, i.1); 
 	}
+	    
         // Dans cet exemple, la distance devrait être la somme des différences absolues
         // entre les composantes de luminance de chaque pixel (2 + 2 pour chaque pixel).
         assert_eq!(result3, 36);
@@ -406,9 +418,12 @@ mod tests {
     #[test]
     #[cfg(target_arch = "aarch64")]
     fn unit_test_aarch64() {
+	    
         // Création d'images factices en niveaux de gris pour le test
         let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
         let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+
+	// Itération pour afficher les pixels de image 1
 	for i in im1.iter(){
 		println!("Pixels image 1 {}", i); 
 	}
@@ -424,9 +439,13 @@ mod tests {
         // Autre exemple avec des images ayant des valeurs différentes
         let im3 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 1, y as u8 + 2, 0]));
         let result2 = unsafe { l1_neon(&im1, &im3)};
+
+	// Itération pour afficher les pixels de image 3
 	for i in im3.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
+
+	// Itération pour afficher le résultat de la méthode .zip
 	for i in im2.iter().zip(im3.iter()){
 		println!("combinaison {} {}", i.0, i.1); 
 	}
@@ -436,12 +455,17 @@ mod tests {
         
         let im4 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 2, y as u8 + 2, 0]));
         let result3 = unsafe {l1_neon(&im1, &im4)};
+
+	// Itération pour afficher les pixels de image 4
 	for i in im4.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
+
+	// Itération pour afficher le résultat de la méthode .zip
 	for i in im2.iter().zip(im4.iter()){
 		println!("combinaison {} {}", i.0, i.1); 
 	}
+	    
         // Dans cet exemple, la distance devrait être la somme des différences absolues
         // entre les composantes de luminance de chaque pixel (2 + 2 pour chaque pixel).
         assert_eq!(result3, 36);
@@ -455,6 +479,8 @@ mod tests {
         // Création d'images factices en niveaux de gris pour le test
         let im1 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
         let im2 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8, y as u8, 0]));
+
+	// Itération pour afficher les pixels de image 1
 	for i in im1.iter(){
 		println!("Pixels image 1 {}", i); 
 	}
@@ -470,6 +496,8 @@ mod tests {
         // Autre exemple avec des images ayant des valeurs différentes
         let im3 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 1, y as u8 + 2, 0]));
         let result2 = l1_generic(&im1, &im3);
+
+	// Itération pour afficher les pixels de image 3
 	for i in im3.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
@@ -482,6 +510,8 @@ mod tests {
         
         let im4 = image::RgbImage::from_fn(3, 3, |x, y| image::Rgb([x as u8 + 2, y as u8 + 2, 0]));
         let result3 = l1_generic(&im1, &im4);
+
+	// Itération pour afficher les pixels de image 4
 	for i in im4.iter(){
 		println!("Pixels image 2 {}", i); 
 	}
@@ -498,7 +528,7 @@ mod tests {
     fn test_prepare_tiles() {
         
         
-        //let fake_tiles_folder = "fake_tiles_folder";
+        //Chemin du dossier des images
         let image_folder = "assets/images";
 
         
@@ -523,7 +553,7 @@ mod tests {
     fn test_prepare_target() {
         
         
-        //let fake_tiles_folder = "fake_tiles_folder";
+        //chemin du dossier d'images
         let image_target = "assets/target-small.png";
 
         
