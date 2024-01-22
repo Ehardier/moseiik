@@ -13,14 +13,22 @@ mod tests {
         // TODO: votre implémentation de test ici
         // Définir les options pour l'appel à compute_mosaic
         let options = Options {
+	// chemin de l'image source à convertir
             image: "assets/kit.jpeg".to_string(),
+	//chemin de l'image de sortie
             output: "assets/output.png".to_string(),
+	//chemin du dossier contenant les images de tuiles
             tiles: "assets/images".to_string(),
+	//scaling pour ajuster la taille de l'image de sortie
             scaling: 1,
+	//taille des tuiles utilisées dans la conversion
             tile_size: 25,
+	// Indique que les tuiles utilisées ne doivent pas être supprimées du répertoire source
             remove_used: false,
             verbose: true,
+	// Utilisation de SIMD (Single Instruction, Multiple Data) pour optimiser les calculs
             simd: true,
+	// Nombre de threads à utiliser pour la conversion
             num_thread: 4,
         };
 
@@ -37,7 +45,7 @@ mod tests {
         assert!(res);
 
     }
-
+// on fait la meme chose pour le test sur arm en utilisant une image réelle "truth_image" pour ARM
     #[test]
     #[cfg(target_arch = "aarch64")]
     fn test_aarch64() {
