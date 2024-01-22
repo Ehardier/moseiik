@@ -37,8 +37,8 @@ jobs:
 
       - name: Build and Test Docker Image
         run: |
-          docker build -t docker_image --platform ${{ matrix.platform }} .
+          sudo docker build -t docker_image --platform ${{ matrix.platform }} .
           # Construire l'image Docker avec le tag docker_image et la plateforme spécifiée dans la matrice
           
-          docker run -it docker_image 
+          sudo docker run -it docker_image 
           # Exécuter les tests à l'intérieur du conteneur Docker
