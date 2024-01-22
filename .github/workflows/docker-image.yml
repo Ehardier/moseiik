@@ -27,7 +27,8 @@ jobs:
       - name: Setup QEMU 
         run: |
           # Installer QEMU sur la machine de l'agent GitHub Actions
-          sudo apt-get install -y qemu-user-static 
+          sudo apt-get update 
+          sudo apt-get install -y libssl-dev qemu-user-static 
           
           # Configurer QEMU pour l'émulation d'architecture  
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
