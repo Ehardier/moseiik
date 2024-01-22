@@ -22,7 +22,7 @@ jobs:
 
       - name: Download Dockerfile
         run: |
-          wget https://github.com/Ehardier/moseiik/main/Dockerfile -O Dockerfile
+          wget https://github.com/Ehardier/moseiik/blob/main/Dockerfile -O Dockerfile
           
           # Ou si vous utilisez curl
           # curl -o Dockerfile https://raw.githubusercontent.com/votre-utilisateur/votre-depot/main/Dockerfile
