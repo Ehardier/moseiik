@@ -19,8 +19,6 @@ RUN unzip -q images.zip -d ./assets/images
 # Build the Rust application
 RUN cargo build --release
 
-# Expose any necessary ports (if your application is a server)
-# EXPOSE 8080
 
 # Set the default command to run your application
 #CMD ["./target/release/your_binary_name"]
