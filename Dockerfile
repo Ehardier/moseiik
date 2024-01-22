@@ -14,7 +14,7 @@ RUN apt-get update && \
 
 #Télécharger images
 RUN wget "https://filesender.renater.fr/download.php?token=178558c6-7155-4dca-9ecf-76cbebeb422e&files_ids=33679270" -O images.zip
-RUN unzip -q images.zip -d /assets/images
+RUN unzip -q images.zip -d ./assets/images
 
 # Build the Rust application
 RUN cargo build --release
