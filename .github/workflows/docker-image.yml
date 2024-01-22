@@ -1,0 +1,47 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test: # Nom du job
+    # Utiliser une image Ubuntu pour l'exécution du job
+    runs-on: ubuntu-latest 
+
+    strategy:
+      matrix:
+        # Matrice pour exécuter le job sur deux architectures différentes
+        platform: [x86_64, arm64] 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2 # Utiliser l'action pour récupérer le code source du dépôt
+
+      - name: Download Dockerfile
+        run: |
+          wget https://github.com/Ehardier/moseiik/main/Dockerfile -O Dockerfile
+          
+          # Ou si vous utilisez curl
+          # curl -o Dockerfile https://raw.githubusercontent.com/votre-utilisateur/votre-depot/main/Dockerfile
+          # Télécharger le Dockerfile depuis le dépôt GitHub
+
+      - name: Setup QEMU 
+        run: |
+          # Installer QEMU sur la machine de l'agent GitHub Actions
+          sudo apt-get install -y qemu-user-static 
+          
+          # Configurer QEMU pour l'émulation d'architecture  
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+          
+          
+
+      - name: Build and Test Docker Image
+        run: |
+          sudo docker build -t docker_image --platform ${{ matrix.platform }} .
+          # Construire l'image Docker avec le tag docker_image et la plateforme spécifiée dans la matrice
+          
+          sudo docker run -it docker_image 
+          # Exécuter les tests à l'intérieur du conteneur Docker
