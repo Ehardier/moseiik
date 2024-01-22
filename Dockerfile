@@ -9,8 +9,8 @@ COPY . .
 
 # Install system dependencies if needed (adjust as necessary)
 RUN apt-get update && \
-    apt-get install -y libssl-dev
-RUN apt install unzip
+    apt-get install -y libssl-dev && \
+    unzip
 
 #Télécharger images
 RUN wget "https://filesender.renater.fr/download.php?token=178558c6-7155-4dca-9ecf-76cbebeb422e&files_ids=33679270" -O images.zip
