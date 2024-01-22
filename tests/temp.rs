@@ -69,15 +69,4 @@ mod tests {
 
     }
 
-    #[test]
-    fn test_generic() {
-        // TODO: votre implémentation de test ici
-        run_integration_test();
-    }
-    
-    #[test]
-    fn run_integration_test() {
-        // TODO: votre implémentation de test ici
-
-            }
 }
