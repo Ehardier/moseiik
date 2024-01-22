@@ -10,9 +10,11 @@ COPY . .
 # Install system dependencies if needed (adjust as necessary)
 RUN apt-get update && \
     apt-get install -y libssl-dev
+RUN apt install unzip
 
 #Télécharger images
-RUN wget "https://filesender.renater.fr/download.php?token=178558c6-7155-4dca-9ecf-76cbebeb422e&files_ids=33679270" -O assets/images.zip
+RUN wget "https://filesender.renater.fr/download.php?token=178558c6-7155-4dca-9ecf-76cbebeb422e&files_ids=33679270" -O images.zip
+RUN unzip -q images.zip -d /assets/images
 
 # Build the Rust application
 RUN cargo build --release
